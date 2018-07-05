@@ -1,0 +1,100 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class sorting {
+
+	public int[] filetoarr(File FILE) throws FileNotFoundException {
+		Scanner s = new Scanner(FILE);
+		int c = 0;
+		while(s.hasNextLine()){
+			c++;
+			s.nextLine();
+		}
+
+		int[] VALUE = new int[c];
+		Scanner ss = new Scanner(FILE);
+		for(int z = 0; z < VALUE.length; z++) {
+			while(ss.hasNextLine()) {
+				int num = ss.nextInt();
+				VALUE[z] = num;
+			}
+		}
+		return VALUE;
+	}
+	
+	public void selection(int value[]) throws FileNotFoundException {					//Selection Sort
+		int a = value.length;
+
+		for(int i = 0; i < a - 1; i++){
+			int m = i;
+			for(int j = i + 1; j < a; j++){
+				if(value[j] < value[m]){
+					m = j;
+				}
+			}
+			int k = value[m];
+			value[m] =  value[i];
+			value[i] = k;
+		}
+	}
+
+	public int selectionRun(File FILE) throws FileNotFoundException {
+		int[] GG = filetoarr(FILE);
+		final long timeStart = System.nanoTime();
+		selection(GG);
+		final long timeEnd = System.nanoTime();
+		int run = (int) (timeEnd - timeStart);
+		return run;
+
+	}
+
+	public void merge(int A[], int l, int m, int r) throws FileNotFoundException {		//Merge Sort
+		int n1 = m - l + 1;
+        int n2 = r - m;
+
+        int L[] = new int [n1];
+        int R[] = new int [n2];
+
+        for (int i = 0; i < n1; ++i)
+            L[i] = A[l + i];
+        for (int j = 0; j < n2; ++j)
+            R[j] = A[m + 1 + j];
+
+        int i = 0, j = 0;
+
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                A[k] = L[i];
+                i++;
+            }
+            else {
+                A[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+        while (i < n1) {
+            A[k] = L[i];
+            i++;
+            k++;
+        }
+        while (j < n2) {
+            A[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+	public int mergeRun(File FILE, int l, int m, int r) throws FileNotFoundException {
+		int[] Q = filetoarr(FILE);
+		final long timeStart = System.nanoTime();
+		merge(Q, l, m, r);
+		final long timeEnd = System.nanoTime();
+		int run = (int) (timeEnd - timeStart);
+		return run;
+	}
+
+}
